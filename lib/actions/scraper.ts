@@ -180,7 +180,7 @@ export async function scrapeEcommerceProduct(url: string) {
       title,
       currentPrice: currentPrice || originalPrice,
       originalPrice: originalPrice || currentPrice,
-      priceHistory: [],
+      priceHistory: [5, 8, 9, 10, 11, 12],
       discountRate: Number(discountRate),
       category: 'category',
       reviewsCount: 100,
