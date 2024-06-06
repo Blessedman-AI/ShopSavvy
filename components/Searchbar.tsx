@@ -1,6 +1,7 @@
 'use client';
 
 import { scrapeAndStoreProduct } from '@/lib/actions';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 // import { scrapeAndStoreProduct } from '@/lib/actions';
 import { FormEvent, useState } from 'react';
@@ -38,20 +39,15 @@ const Searchbar = () => {
 
     const isValidLink = isValidAmazonProductURL(searchPrompt);
 
-    // alert(isValidLink ? 'valid link' : 'invalid link');
-
-    if (!isValidLink) return alert('Please provide a valid Amazon link');
+    if (!isValidLink) return alert('Only Jumia or Amazon links allowed');
 
     try {
       setIsLoading(true);
 
       // Scrape the product page
       const product = await scrapeAndStoreProduct(searchPrompt);
-      console.log('Scraped product:', product);
 
       if (product && product._id) {
-        console.log('Navigating to product page:', `/products/${product._id}`);
-        // alert('Navigating now');
         router.push(`/products/${product._id}`);
       } else {
         console.log('Product not found or invalid');
@@ -65,7 +61,7 @@ const Searchbar = () => {
   };
 
   return (
-    <form className="flex flex-wrap gap-4 mt-12" onSubmit={handleSubmit}>
+    <form className="flex flex-wrap " onSubmit={handleSubmit}>
       <input
         type="text"
         value={searchPrompt}
@@ -76,10 +72,27 @@ const Searchbar = () => {
 
       <button
         type="submit"
-        className="searchbar-btn"
+        className="searchbar-btn ml-[-40px] z-999"
         disabled={searchPrompt === ''}
       >
-        {isLoading ? 'Searching...' : 'Search'}
+        {isLoading ? (
+          <Image
+            src="/assets/icons/hour-glass.png"
+            alt="search image"
+            width={22}
+            height={22}
+            className="animate-spin"
+          />
+        ) : (
+          <Image
+            src="/assets/icons/search.png"
+            alt="search image"
+            width={22}
+            height={22}
+          />
+        )}
+
+        {/* {isLoading ? 'Searching...' : 'Search'} */}
       </button>
     </form>
   );

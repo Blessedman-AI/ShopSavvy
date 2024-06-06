@@ -70,7 +70,7 @@ export async function getAllProducts() {
   try {
     connectToDB();
 
-    const products = await Product.find();
+    const products = await Product.find().sort({ createdAt: -1 });
 
     return products;
   } catch (error) {
@@ -88,7 +88,9 @@ export async function getSimilarProducts(productId: string) {
 
     const similarProducts = await Product.find({
       _id: { $ne: productId },
-    }).limit(4);
+    })
+      .sort({ createdAt: -1 })
+      .limit(6);
 
     return similarProducts;
   } catch (error) {

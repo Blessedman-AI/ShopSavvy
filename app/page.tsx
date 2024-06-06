@@ -34,9 +34,13 @@ const Home = async () => {
               convert, engage, and retain more.
             </p>
 
-            <Searchbar />
+            <div className="mt-16 ">
+              {' '}
+              <Searchbar />
+            </div>
           </div>
 
+          <div className="mt-12 lg-mt-0"> </div>
           <HeroCarousel />
         </div>
       </section>
@@ -44,7 +48,7 @@ const Home = async () => {
       <section className="trending-section">
         <h2 className="section-text">Trending</h2>
 
-        <div className="flex flex-wrap gap-x-8 gap-y-16">
+        <div className="flex flex-wrap  gap-x-8 gap-y-16">
           {allProducts?.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}

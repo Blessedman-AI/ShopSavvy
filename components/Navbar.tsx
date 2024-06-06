@@ -1,5 +1,10 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import Searchbar from './Searchbar';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const navIcons = [
   { src: '/assets/icons/search.svg', alt: 'search' },
@@ -8,12 +13,45 @@ const navIcons = [
 ];
 
 const Navbar = () => {
+  const pathname = usePathname();
+  const isHomepage = pathname === '/';
+
+  // State to track window size
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    // Function to check screen size
+    const checkScreenSize = () => {
+      setIsSmallScreen(window.innerWidth < 640);
+    };
+
+    // Initial check
+    checkScreenSize();
+
+    // Add event listener to check screen size on window resize
+    window.addEventListener('resize', checkScreenSize);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', checkScreenSize);
+    };
+  }, []);
+
   return (
-    <header className="w-full">
-      <nav className="nav">
-        <Link href="/" className="flex items-center gap-1">
+    <header className="w-full bg-neutral-black">
+      <nav className="nav max-w-10xl">
+        <Link
+          href="/"
+          className={`${
+            isHomepage ? 'flex justify-center item-center gap-1' : ''
+          } ${!isHomepage && isSmallScreen ? 'hidden' : ''} ${
+            !isHomepage && !isSmallScreen
+              ? 'flex justify-center item-center gap-1'
+              : ''
+          }`}
+        >
           <Image
-            src="/assets/icons/logo.png"
+            src="/assets/icons/logo2.png"
             width={27}
             height={27}
             alt="logo"
@@ -24,8 +62,16 @@ const Navbar = () => {
           </p>
         </Link>
 
-        <div className="flex items-center gap-5">
-          {navIcons.map((icon) => (
+        <div
+          className={`${isHomepage && isSmallScreen ? 'hidden' : ''} ${
+            !isHomepage && !isSmallScreen ? 'flex' : ''
+          } ${
+            isSmallScreen && !isHomepage
+              ? 'flex items-center justify center'
+              : ''
+          }`}
+        >
+          {/* {navIcons.map((icon) => (
             <Image
               key={icon.alt}
               src={icon.src}
@@ -34,7 +80,8 @@ const Navbar = () => {
               height={28}
               className="object-contain"
             />
-          ))}
+          ))} */}
+          <Searchbar />
         </div>
       </nav>
     </header>

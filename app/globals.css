@@ -9,6 +9,25 @@
   scroll-behavior: smooth;
 }
 
+.animate-search-icon {
+  position: relative;
+  animation: moveBackForth 2s ease-in-out infinite;
+}
+
+@keyframes moveBackForth {
+  10% {
+    transform: rotate(0deg);
+  }
+
+  75% {
+    transform: rotate(100deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
 @layer base {
   body {
     @apply font-inter;
@@ -17,7 +36,7 @@
 
 @layer utilities {
   .btn {
-    @apply py-4 px-4 bg-secondary hover:bg-opacity-70 rounded-[30px] text-white text-lg font-semibold;
+    @apply py-4 px-4 bg-primary hover:bg-primary-orange rounded-[30px] text-white text-lg font-semibold;
   }
 
   .head-text {
@@ -66,7 +85,7 @@
   }
 
   .product-image {
-    @apply flex-grow xl:max-w-[50%] max-w-full py-16 border border-[#CDDBFF] rounded-[17px];
+    @apply flex-grow lg:max-w-[40%] max-w-full lg:pt-28 pt-8 border border-[#CDDBFF] rounded-[17px];
   }
 
   .product-info {
@@ -116,17 +135,17 @@
   }
 
   .nav-logo {
-    @apply font-spaceGrotesk text-[21px] text-secondary font-bold;
+    @apply font-spaceGrotesk text-[21px] text-gray-200 font-bold;
   }
 
   /* PRICE INFO */
   .price-info_card {
-    @apply flex-1 min-w-[200px] flex flex-col gap-2 border-l-[3px] rounded-10 bg-white-100 px-5 py-4;
+    @apply flex-none min-w-[200px] flex flex-col gap-2 border-l-[3px] rounded-10 bg-white-100 px-5 py-4;
   }
 
   /* PRODUCT CARD */
   .product-card {
-    @apply sm:w-[292px] sm:max-w-[292px] w-full flex-1 flex flex-col gap-4 rounded-md;
+    @apply sm:w-[292px] sm:max-w-[292px] w-full flex-1 flex flex-col gap-4 rounded-md hover:scale-[102%];
   }
 
   .product-card_img-container {
@@ -143,10 +162,10 @@
 
   /* SEARCHBAR INPUT */
   .searchbar-input {
-    @apply flex-1 min-w-[200px] w-full p-3 border border-gray-300 rounded-lg shadow-xs text-base text-gray-500 focus:outline-none;
+    @apply flex-1 lg:min-w-[300px] min-w-[200px]  w-full p-3 border border-gray-300 rounded-lg shadow-xs text-base text-gray-500 focus:outline-none;
   }
 
   .searchbar-btn {
-    @apply bg-gray-900 border border-gray-900 rounded-lg shadow-xs px-5 py-3 text-white text-base font-semibold hover:opacity-90 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-40;
+    @apply bg-primary rounded-tr-lg  rounded-br-lg  shadow-xs px-3 py-2 text-white text-base font-semibold hover:opacity-90 disabled:pointer-events-none disabled:cursor-not-allowed;
   }
 }

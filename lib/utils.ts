@@ -9,6 +9,17 @@ const Notification = {
 
 const THRESHOLD_PERCENTAGE = 40;
 
+//EXTRACT STORE NAME FROM URL
+export function getWebsiteNameFromUrl(url: string) {
+  if (url.includes('jumia')) {
+    return 'Jumia';
+  } else if (url.includes('amazon')) {
+    return 'Amazon';
+  } else {
+    return 'Unknown';
+  }
+}
+
 // Extracts and returns the price from a list of possible elements.
 export function extractPrice(...elements: any) {
   for (const element of elements) {
@@ -155,3 +166,11 @@ export const formatNumber = (num: number = 0) => {
     maximumFractionDigits: 0,
   });
 };
+
+//ShORTEN TITLE
+export function shortenString(title: string) {
+  if (title.length <= 70) {
+    return title;
+  }
+  return title.substring(0, 70) + '...';
+}

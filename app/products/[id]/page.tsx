@@ -4,7 +4,8 @@ import PriceInfoCard from '@/components/PriceInfoCard';
 import ProductCard from '@/components/ProductCard';
 // import { getProductById, getSimilarProducts } from '@/lib/actions';
 import { getProductById, getSimilarProducts } from '@/lib/actions';
-import { formatNumber } from '@/lib/utils';
+import { formatNumber, shortenString } from '@/lib/utils';
+
 import { Product } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -23,7 +24,7 @@ const ProductDetails = async ({ params: { id } }: Props) => {
 
   return (
     <div className="product-container">
-      <div className="flex gap-28 xl:flex-row flex-col">
+      <div className="flex gap-8 lg:flex-row flex-col">
         <div className="product-image">
           <Image
             src={product.image}
@@ -38,7 +39,7 @@ const ProductDetails = async ({ params: { id } }: Props) => {
           <div className="flex justify-between items-start gap-5 flex-wrap pb-6">
             <div className="flex flex-col gap-3">
               <p className="text-[28px] text-secondary font-semibold">
-                {product.title}
+                {shortenString(product.title)}
               </p>
 
               <Link
@@ -51,7 +52,7 @@ const ProductDetails = async ({ params: { id } }: Props) => {
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="product-hearts">
+              {/* <div className="product-hearts">
                 <Image
                   src="/assets/icons/red-heart.svg"
                   alt="heart"
@@ -62,25 +63,25 @@ const ProductDetails = async ({ params: { id } }: Props) => {
                 <p className="text-base font-semibold text-[#D46F77]">
                   {product.reviewsCount}
                 </p>
-              </div>
+              </div> */}
 
-              <div className="p-2 bg-white-200 rounded-10">
+              {/* <div className="p-2 bg-white-200 rounded-10">
                 <Image
                   src="/assets/icons/bookmark.svg"
                   alt="bookmark"
                   width={20}
                   height={20}
                 />
-              </div>
+              </div> */}
 
-              <div className="p-2 bg-white-200 rounded-10">
+              {/* <div className="p-2 bg-white-200 rounded-10">
                 <Image
                   src="/assets/icons/share.svg"
                   alt="share"
                   width={20}
                   height={20}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -96,7 +97,7 @@ const ProductDetails = async ({ params: { id } }: Props) => {
 
             <div className="flex flex-col gap-4">
               <div className="flex gap-3">
-                <div className="product-stars">
+                {/* <div className="product-stars">
                   <Image
                     src="/assets/icons/star.svg"
                     alt="star"
@@ -104,9 +105,9 @@ const ProductDetails = async ({ params: { id } }: Props) => {
                     height={16}
                   />
                   <p className="text-sm text-primary-orange font-semibold">
-                    {product.stars || '25'}
+                    {product.stars}
                   </p>
-                </div>
+                </div> */}
 
                 <div className="product-reviews">
                   <Image
@@ -116,15 +117,15 @@ const ProductDetails = async ({ params: { id } }: Props) => {
                     height={16}
                   />
                   <p className="text-sm text-secondary font-semibold">
-                    {product.reviewsCount} Reviews
+                    {product.reviewsCount.toLocaleString()} Reviews
                   </p>
                 </div>
               </div>
 
-              <p className="text-sm text-black opacity-50">
+              {/* <p className="text-sm text-black opacity-50">
                 <span className="text-primary-green font-semibold">93% </span>{' '}
                 of buyers have recommeded this.
-              </p>
+              </p> */}
             </div>
           </div>
 
@@ -137,13 +138,13 @@ const ProductDetails = async ({ params: { id } }: Props) => {
                   product.currentPrice
                 )}`}
               />
-              <PriceInfoCard
+              {/* <PriceInfoCard
                 title="Average Price"
                 iconSrc="/assets/icons/chart.svg"
                 value={`${product.currency} ${formatNumber(
                   product.averagePrice
                 )}`}
-              />
+              /> */}
               <PriceInfoCard
                 title="Highest Price"
                 iconSrc="/assets/icons/arrow-up.svg"
@@ -176,7 +177,7 @@ const ProductDetails = async ({ params: { id } }: Props) => {
           </div>
         </div> */}
 
-        <button className="btn w-fit mx-auto flex items-center justify-center gap-3 min-w-[200px]">
+        {/* <button className="btn w-fit mx-auto flex items-center justify-center gap-3 min-w-[200px]">
           <Image
             src="/assets/icons/bag.svg"
             alt="check"
@@ -187,12 +188,12 @@ const ProductDetails = async ({ params: { id } }: Props) => {
           <Link href="/" className="text-base text-white">
             Buy Now
           </Link>
-        </button>
+        </button> */}
       </div>
 
       {similarProducts && similarProducts?.length > 0 && (
         <div className="py-14 flex flex-col gap-2 w-full">
-          <p className="section-text">Similar Products</p>
+          <p className="section-text">Recently Searched for</p>
 
           <div className="flex flex-wrap gap-10 mt-7 w-full">
             {similarProducts.map((product) => (

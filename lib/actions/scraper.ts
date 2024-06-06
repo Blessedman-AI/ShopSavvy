@@ -7,6 +7,7 @@ import {
   extractPrice,
   formatNumber,
   getHighestPrice,
+  getWebsiteNameFromUrl,
 } from '../utils';
 // import { extractCurrency, extractDescription, extractPrice } from '../utils';
 
@@ -32,8 +33,39 @@ export async function scrapeEcommerceProduct(url: string) {
     const response = await axios.get(url);
     const $ = cheerio.load(response.data);
 
+    //EXRACT STORE NAME
+    const websiteName = getWebsiteNameFromUrl(url);
+
     // EXTRACT PRODUCT TITLE
     const title = $('#productTitle, .-fs20.-pts.-pbxs').text().trim();
+
+    // Select and extract review text
+    const reviewText = $('.-plxs._more, #acrCustomerReviewText')
+      .text()
+      .trim()
+      .match(/[\d,]+/);
+
+    let reviewsCount = 0;
+
+    if (reviewText && reviewText[0]) {
+      // Remove commas from the matched string and convert it to a number
+      reviewsCount = Number(reviewText[0].replace(/,/g, ''));
+    }
+
+    //EXTRACT RATING STARS
+    const ratingElements = $('.stars._m._al, span.a-size-base.a-color-base')
+      .text()
+      .trim()
+      .match(/(\d+(\.\d+)?)/);
+
+    let stars;
+    if (ratingElements) {
+      stars = parseFloat(ratingElements[0]);
+    }
+
+    console.log('Rating:', stars);
+
+    // EXTRACT CURRENT PRICE
     const currentPrice = extractPrice(
       $('.priceToPay span.a-price-whole'),
       $('.a.size.base.a-color-price'),
@@ -182,9 +214,9 @@ export async function scrapeEcommerceProduct(url: string) {
       originalPrice: originalPrice || currentPrice,
       priceHistory: [],
       discountRate: Number(discountRate) || 0,
-      category: 'category',
-      reviewsCount: 100,
-      stars: 4.5,
+      category: websiteName,
+      reviewsCount: reviewsCount,
+      stars: stars || 0,
       isOutOfStock: outOfStock,
       lowestPrice: currentPrice || originalPrice,
       highestPrice: originalPrice || currentPrice,
