@@ -72,7 +72,7 @@ const Searchbar = () => {
 
       <button
         type="submit"
-        className="searchbar-btn ml-[-40px] z-999"
+        className="searchbar-btn md:ml-[-40px] ml-[-30px] z-999"
         disabled={searchPrompt === ''}
       >
         <Image

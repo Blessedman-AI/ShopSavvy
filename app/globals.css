@@ -169,10 +169,10 @@
 
   /* SEARCHBAR INPUT */
   .searchbar-input {
-    @apply flex-1 lg:min-w-[300px] min-w-[200px]  w-full p-3 border border-gray-300 rounded-lg shadow-xs text-base text-gray-500 focus:outline-none;
+    @apply flex-1 lg:min-w-[300px] w-[200px]  lg:w-full h-10 p-3 border border-gray-300 rounded-lg shadow-xs text-sm text-gray-500 focus:outline-none;
   }
 
   .searchbar-btn {
-    @apply bg-primary rounded-tr-lg  rounded-br-lg  shadow-xs px-3 py-2 text-white text-base font-semibold hover:opacity-90 disabled:pointer-events-none disabled:cursor-not-allowed;
+    @apply bg-primary rounded-tr-lg  rounded-br-lg  shadow-xs px-2 md:px-3 py-2 text-white text-base font-semibold hover:opacity-90 disabled:pointer-events-none disabled:cursor-not-allowed;
   }
 }
