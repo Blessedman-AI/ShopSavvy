@@ -4,7 +4,8 @@ import { FormEvent, Fragment, useState } from 'react';
 import { Dialog, Transition, TransitionChild } from '@headlessui/react';
 import Image from 'next/image';
 import { addUserEmailToProduct } from '@/lib/actions';
-// import { addUserEmailToProduct } from '@/lib/actions';
+// import toast, { Toaster } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 interface Props {
   productId: string;
@@ -15,19 +16,42 @@ const Modal = ({ productId }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [email, setEmail] = useState('');
 
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    await addUserEmailToProduct(productId, email);
+    try {
+      const response = await addUserEmailToProduct(productId, email);
 
-    setIsSubmitting(false);
-    setEmail('');
-    closeModal();
+      if (response?.productTracked) {
+        // toast.success('Product tracked. Sending email...');
+        setEmail('');
+        closeModal();
+        setIsSubmitting(false);
+      } else {
+        console.log(Error);
+        toast.error('You are already tracking this product');
+        setIsSubmitting(false);
+      }
+
+      if (response?.emailSent) {
+        toast.success('Product tracked. Check your inbox/spam for details', {
+          duration: 6000,
+          style: {
+            textAlign: 'center',
+          },
+        });
+      }
+    } catch (error) {
+      toast.error('An error occurred during submission.');
+      console.log(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
-
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
 
   return (
     <>

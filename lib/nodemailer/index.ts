@@ -18,8 +18,8 @@ export async function generateEmailBody(
 
   // Shorten the product title
   const shortenedTitle =
-    product.title.length > 20
-      ? `${product.title.substring(0, 20)}...`
+    product.title.length > 30
+      ? `${product.title.substring(0, 30)}...`
       : product.title;
 
   let subject = '';
@@ -27,19 +27,30 @@ export async function generateEmailBody(
 
   switch (type) {
     case Notification.WELCOME:
-      subject = `Welcome to Price Tracking for ${shortenedTitle}`;
+      subject = `ShopSavvy Tracking for ${shortenedTitle}`;
       body = `
         <div>
-          <h2>Welcome to PriceWise 🚀</h2>
-          <p>You are now tracking ${product.title}.</p>
-          <p>Here's an example of how you'll receive updates:</p>
-          <div style="border: 1px solid #ccc; padding: 10px; background-color: #f8f8f8;">
-            <h3>${product.title} is back in stock!</h3>
-            <p>We're excited to let you know that ${product.title} is now back in stock.</p>
-            <p>Don't miss out - <a href="${product.url}" target="_blank" rel="noopener noreferrer">buy it now</a>!</p>
-            <img src="https://i.ibb.co/pwFBRMC/Screenshot-2023-09-26-at-1-47-50-AM.png" alt="Product Image" style="max-width: 100%;" />
-          </div>
-          <p>Stay tuned for more updates on ${product.title} and other products you're tracking.</p>
+          <h2>Welcome to ShopSavvy 🚀</h2>
+          <P>We're thrilled to have you with us! As a valued user, 
+          you'll receive timely email notifications for the products
+           you're tracking. Here's what to expect:</P>
+
+           <br/>
+
+          Price Drops: Get alerted when the price of your tracked product decreases, so you never miss a deal.
+          <br/>
+          Back in Stock: If an item you’re tracking is out of stock, we’ll notify you as soon as it’s available again.
+          <br/>
+          Discount Alerts: Receive updates when the discount rate reaches or drops below 40%, ensuring you get the best savings.
+
+          <br/>
+
+          If this landed in your spam filter, please move it to inbox so you don't miss subsequent notifications.
+
+          <br/>
+
+          Happy Savvy shopping!
+          
         </div>
       `;
       break;
@@ -81,18 +92,6 @@ export async function generateEmailBody(
   return { subject, body };
 }
 
-// const transporter = nodemailer.createTransport({
-//   pool: true,
-//   service: 'hotmail',
-//   port: 465,
-//   auth: {
-//     user: 'shopsavvy-beta@outlook.com',
-//     pass: '9812#$Sddvj89fjmn',
-//     // pass: process.env.EMAIL_PASSWORD,
-//   },
-//   maxConnections: 1,
-// });
-
 const transporter = nodemailer.createTransport({
   host: 'smtp-mail.outlook.com',
   port: 587,
@@ -106,20 +105,27 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// const transporter = nodemailer.createTransport({
-//   host: 'smtp.ethereal.email',
-//   port: 587,
-//   secure: false, // Use `true` for port 465, `false` for all other ports
-//   auth: {
-//     user: 'natasha.johnston60@ethereal.email',
-//     pass: '2XPAubwHbHtv8rCtfW',
-//   },
-// });
+// export const sendEmail = async (
+//   emailContent: EmailContent,
+//   sendTo: string[]
+// ) => {
+//   const mailOptions = {
+//     from: 'shopsavvy-beta@outlook.com',
+//     to: sendTo,
+//     html: emailContent.body,
+//     subject: emailContent.subject,
+//   };
 
+//   transporter.sendMail(mailOptions, (error: any, info: any) => {
+//     if (error)  return console.log(error);
+
+//     console.log('Email sent: ', info);
+//   });
+// };
 export const sendEmail = async (
   emailContent: EmailContent,
   sendTo: string[]
-) => {
+): Promise<boolean> => {
   const mailOptions = {
     from: 'shopsavvy-beta@outlook.com',
     to: sendTo,
@@ -127,9 +133,12 @@ export const sendEmail = async (
     subject: emailContent.subject,
   };
 
-  transporter.sendMail(mailOptions, (error: any, info: any) => {
-    if (error) return console.log(error);
-
+  try {
+    const info = await transporter.sendMail(mailOptions);
     console.log('Email sent: ', info);
-  });
+    return true;
+  } catch (error) {
+    console.log('Failed to send email:', error);
+    return false;
+  }
 };

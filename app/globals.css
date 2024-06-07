@@ -56,7 +56,7 @@
   }
 
   .hero-carousel {
-    @apply relative sm:px-10 py-5 sm:pt-20 pb-5 max-w-[560px] h-[700px] w-full bg-[#F2F4F7] rounded-[30px] sm:mx-auto;
+    @apply relative flex flex-row justify-center items-center sm:px-10   max-w-[560px] h-[650px] w-full bg-neutral-black rounded-[30px] sm:mx-auto shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)];
   }
 
   .carousel {
@@ -106,7 +106,7 @@
 
   /* MODAL */
   .dialog-container {
-    @apply fixed inset-0 z-10 overflow-y-auto bg-black bg-opacity-60;
+    @apply fixed inset-0 z-10 overflow-y-auto bg-black bg-opacity-80;
   }
 
   .dialog-content {
@@ -135,7 +135,7 @@
   }
 
   .nav-logo {
-    @apply font-spaceGrotesk text-[21px] text-gray-200 font-bold;
+    @apply font-spaceGrotesk  text-gray-200 font-bold;
   }
 
   /* PRICE INFO */

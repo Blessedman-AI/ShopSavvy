@@ -40,24 +40,18 @@ const Navbar = () => {
   return (
     <header className="w-full bg-neutral-black">
       <nav className="nav max-w-10xl">
-        <Link
-          href="/"
-          className={`${
-            isHomepage ? 'flex justify-center item-center gap-1' : ''
-          } ${!isHomepage && isSmallScreen ? 'hidden' : ''} ${
-            !isHomepage && !isSmallScreen
-              ? 'flex justify-center item-center gap-1'
-              : ''
-          }`}
-        >
+        <Link href="/" className={`flex`}>
           <Image
             src="/assets/icons/logo2.png"
             width={27}
             height={27}
             alt="logo"
+            className={`${isHomepage ? 'flex' : ''} ${
+              !isHomepage && isSmallScreen ? 'hidden' : ''
+            }`}
           />
 
-          <p className="nav-logo">
+          <p className="nav-logo md:text-[21px]">
             Shop<span className="text-primary">Savvy</span>
           </p>
         </Link>

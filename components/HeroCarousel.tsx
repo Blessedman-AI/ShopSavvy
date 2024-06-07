@@ -6,7 +6,6 @@ import Image from 'next/image';
 
 const heroImages = [
   { imgUrl: '/assets/images/hero-1.svg', alt: 'smartwatch' },
-  { imgUrl: '/assets/images/hero-2.svg', alt: 'bag' },
   { imgUrl: '/assets/images/hero-3.svg', alt: 'lamp' },
   { imgUrl: '/assets/images/hero-4.svg', alt: 'air fryer' },
   { imgUrl: '/assets/images/hero-5.svg', alt: 'chair' },
@@ -17,11 +16,12 @@ const HeroCarousel = () => {
     <div className="hero-carousel">
       <Carousel
         showThumbs={false}
-        // autoPlay
+        autoPlay
         infiniteLoop
-        interval={2000}
+        interval={3000}
         showArrows={false}
         showStatus={false}
+        swipeable={false}
       >
         {heroImages.map((image) => (
           <Image

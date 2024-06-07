@@ -9,6 +9,7 @@ import { scrapeEcommerceProduct } from './scraper';
 import { User } from '@/types';
 import { generateEmailBody, sendEmail } from '../nodemailer';
 import { redirect } from 'next/navigation';
+import { Fascinate_Inline } from 'next/font/google';
 
 export async function scrapeAndStoreProduct(productUrl: string) {
   if (!productUrl) return;
@@ -43,6 +44,7 @@ export async function scrapeAndStoreProduct(productUrl: string) {
       product,
       { upsert: true, new: true }
     );
+    console.log(`newProduct is: ${newProduct}`);
 
     revalidatePath(`/products/${newProduct._id}`);
     return newProduct.toObject();
@@ -98,6 +100,70 @@ export async function getSimilarProducts(productId: string) {
   }
 }
 
+// export async function addUserEmailToProduct(
+//   productId: string,
+//   userEmail: string
+// ) {
+//   try {
+//     const product = await Product.findById(productId);
+
+//     if (!product) return;
+
+//     const userExists = product.users.some(
+//       (user: User) => user.email === userEmail
+//     );
+
+//     if (!userExists) {
+//       product.users.push({ email: userEmail });
+
+//       await product.save();
+
+//       const emailContent = await generateEmailBody(product, 'WELCOME');
+
+//       await sendEmail(emailContent, [userEmail]);
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
+// export async function addUserEmailToProduct(
+//   productId: string,
+//   userEmail: string
+// ) {
+//   try {
+//     const product = await Product.findById(productId);
+
+//     if (!product) return;
+
+//     const userExists = product.users.some(
+//       (user: User) => user.email === userEmail
+//     );
+
+//     if (!userExists) {
+//       product.users.push({ email: userEmail });
+
+//       await product.save();
+
+//       const emailContent = await generateEmailBody(product, 'WELCOME');
+
+//       await sendEmail(emailContent, [userEmail]);
+//       return { success: true };
+//     } else {
+//       return {
+//         sucess: false,
+//         message: 'You are already tracking this product!',
+//       };
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     return {
+//       success: false,
+//       message: 'An error occurred while adding the user to the product.',
+//     };
+//   }
+// }
+
 export async function addUserEmailToProduct(
   productId: string,
   userEmail: string
@@ -105,22 +171,43 @@ export async function addUserEmailToProduct(
   try {
     const product = await Product.findById(productId);
 
-    if (!product) return;
+    if (!product) {
+      return {
+        productTracked: false,
+        emailSent: false,
+      };
+    }
 
     const userExists = product.users.some(
       (user: User) => user.email === userEmail
     );
 
+    if (userExists) {
+      return {
+        productTracked: false,
+        emailsent: false,
+      };
+    }
+
     if (!userExists) {
       product.users.push({ email: userEmail });
-
       await product.save();
 
       const emailContent = await generateEmailBody(product, 'WELCOME');
+      const emailSent = await sendEmail(emailContent, [userEmail]);
 
-      await sendEmail(emailContent, [userEmail]);
+      return {
+        emailSent: true,
+        productTracked: true,
+      };
     }
   } catch (error) {
     console.log(error);
+    return {
+      success: false,
+      message: 'An error occurred while processing your request.',
+      productSaved: false,
+      emailSent: false,
+    };
   }
 }
