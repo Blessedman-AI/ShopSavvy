@@ -51,7 +51,7 @@ const Navbar = () => {
             }`}
           />
 
-          <p className="nav-logo md:text-[21px]">
+          <p className="nav-logo text-[20px] md:text-[21px]">
             Shop<span className="text-primary">Savvy</span>
           </p>
         </Link>

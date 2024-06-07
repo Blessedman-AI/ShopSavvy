@@ -169,7 +169,7 @@
 
   /* SEARCHBAR INPUT */
   .searchbar-input {
-    @apply flex-1 lg:min-w-[300px] w-[200px]  lg:w-full h-10 p-3 border border-gray-300 rounded-lg shadow-xs text-sm text-gray-500 focus:outline-none;
+    @apply flex-1 lg:min-w-[300px] w-[210px]  lg:w-full h-10 p-3 border border-gray-300 rounded-lg shadow-xs text-sm text-gray-500 focus:outline-none;
   }
 
   .searchbar-btn {
