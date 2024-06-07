@@ -9,22 +9,29 @@
   scroll-behavior: smooth;
 }
 
-.animate-search-icon {
-  position: relative;
-  animation: moveBackForth 2s ease-in-out infinite;
+/* .search-button {
+  animation: search-motion 1s ease-in-out infinite;
 }
 
-@keyframes moveBackForth {
-  10% {
+@keyframes search-motion {
+  from {
     transform: rotate(0deg);
   }
-
-  75% {
-    transform: rotate(100deg);
+  to {
+    transform: rotate(360deg);
   }
+} */
 
+.search-button {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
   100% {
-    transform: rotate(0deg);
+    transform: rotate(360deg);
   }
 }
 

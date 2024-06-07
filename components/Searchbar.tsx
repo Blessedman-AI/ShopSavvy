@@ -75,22 +75,13 @@ const Searchbar = () => {
         className="searchbar-btn ml-[-40px] z-999"
         disabled={searchPrompt === ''}
       >
-        {isLoading ? (
-          <Image
-            src="/assets/icons/hour-glass.png"
-            alt="search image"
-            width={22}
-            height={22}
-            className="animate-spin"
-          />
-        ) : (
-          <Image
-            src="/assets/icons/search.png"
-            alt="search image"
-            width={22}
-            height={22}
-          />
-        )}
+        <Image
+          src="/assets/icons/search2.png"
+          alt="search image"
+          width={22}
+          height={22}
+          className={isLoading ? 'search-button' : ''}
+        />
 
         {/* {isLoading ? 'Searching...' : 'Search'} */}
       </button>
