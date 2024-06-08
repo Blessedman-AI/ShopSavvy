@@ -10,7 +10,10 @@ import {
 import ProductCard from '@/components/ProductCard';
 import { useEffect, useState } from 'react';
 import { Product } from '@/types/index';
+import { GetServerSideProps } from 'next';
 // import ProductCard from '@/components/ProductCard';
+
+export const revalidate = 0;
 
 const Home = async () => {
   const latestProducts = await getAllProducts({ createdAt: -1 }, 6);
