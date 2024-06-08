@@ -2,10 +2,17 @@ import HeroCarousel from '@/components/HeroCarousel';
 
 import Searchbar from '@/components/Searchbar';
 import Image from 'next/image';
-import { getAllProducts, getTrendingProducts } from '@/lib/actions';
+import {
+  getAllProducts,
+  getProductByIdAndIncrementViews,
+  getTrendingProducts,
+} from '@/lib/actions';
 import ProductCard from '@/components/ProductCard';
 // import ProductCard from '@/components/ProductCard';
 
+type Props = {
+  params: { id: string };
+};
 const Home = async () => {
   const trendingProducts = await getAllProducts({ views: -1 }, 6);
 
