@@ -8,13 +8,13 @@ import {
   getTrendingProducts,
 } from '@/lib/actions';
 import ProductCard from '@/components/ProductCard';
+import { useEffect, useState } from 'react';
+import { Product } from '@/types/index';
 // import ProductCard from '@/components/ProductCard';
 
-type Props = {
-  params: { id: string };
-};
 const Home = async () => {
   const latestProducts = await getAllProducts({ createdAt: -1 }, 6);
+  console.log(latestProducts);
 
   return (
     <>
@@ -52,7 +52,7 @@ const Home = async () => {
         </div>
       </section>
 
-      {latestProducts && (
+      {latestProducts && latestProducts.length > 0 && (
         <section className="trending-section">
           <h2 className="section-text">Most recent searches</h2>
 
