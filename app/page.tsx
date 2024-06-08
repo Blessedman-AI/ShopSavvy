@@ -14,7 +14,7 @@ type Props = {
   params: { id: string };
 };
 const Home = async () => {
-  const trendingProducts = await getAllProducts({ views: -1 }, 6);
+  const latestProducts = await getAllProducts({ createdAt: -1 }, 6);
 
   return (
     <>
@@ -52,12 +52,12 @@ const Home = async () => {
         </div>
       </section>
 
-      {trendingProducts && (
+      {latestProducts && (
         <section className="trending-section">
-          <h2 className="section-text">Trending</h2>
+          <h2 className="section-text">Most recent searches</h2>
 
           <div className="flex flex-wrap  gap-x-8 gap-y-16">
-            {trendingProducts?.map((product) => (
+            {latestProducts?.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}
           </div>

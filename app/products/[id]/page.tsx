@@ -95,9 +95,12 @@ const ProductDetails = async ({ params: { id } }: Props) => {
               <p className="text-[34px] text-secondary font-bold">
                 {product.currency} {formatNumber(product.currentPrice)}
               </p>
-              <p className="text-[21px] text-black opacity-50 line-through">
-                {product.currency} {formatNumber(product.originalPrice)}
-              </p>
+
+              {product.originalPrice > product.currentPrice && (
+                <p className="text-[21px] text-black opacity-50 line-through">
+                  {product.currency} {formatNumber(product.originalPrice)}
+                </p>
+              )}
             </div>
 
             <div className="flex flex-col gap-4">
@@ -154,7 +157,10 @@ const ProductDetails = async ({ params: { id } }: Props) => {
                 title="Highest Price"
                 iconSrc="/assets/icons/arrow-up.svg"
                 value={`${product.currency} ${formatNumber(
-                  product.highestPrice
+                  product.highestPrice &&
+                    product.highestPrice > product.currentPrice
+                    ? product.highestPrice
+                    : product.currentPrice
                 )}`}
               />
               <PriceInfoCard
@@ -198,7 +204,7 @@ const ProductDetails = async ({ params: { id } }: Props) => {
 
       {similarProducts && similarProducts?.length > 0 && (
         <div className="py-14 flex flex-col gap-2 w-full">
-          <p className="section-text">Recently Searched for</p>
+          <p className="section-text">Most Viewed</p>
 
           <div className="flex flex-wrap gap-10 mt-7 w-full">
             {similarProducts.map((product) => (

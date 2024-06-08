@@ -116,7 +116,7 @@ export async function getSimilarProducts(productId: string) {
     const similarProducts = await Product.find({
       _id: { $ne: productId },
     })
-      .sort({ createdAt: -1 })
+      .sort({ views: -1 })
       .limit(6);
 
     return similarProducts;
