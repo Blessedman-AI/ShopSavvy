@@ -5,11 +5,13 @@ import Product from '../models/product.model';
 import { connectToDB } from '../mongoose';
 import { getAveragePrice, getHighestPrice, getLowestPrice } from '../utils';
 import { scrapeEcommerceProduct } from './scraper';
+import { ObjectId } from 'mongodb';
 
 import { User } from '@/types';
 import { generateEmailBody, sendEmail } from '../nodemailer';
 import { redirect } from 'next/navigation';
 import { Fascinate_Inline } from 'next/font/google';
+import { FilterQuery } from 'mongoose';
 
 export async function scrapeAndStoreProduct(productUrl: string) {
   if (!productUrl) return;
@@ -68,14 +70,37 @@ export async function getProductById(productId: string) {
   }
 }
 
-export async function getAllProducts() {
+export async function getAllProducts(
+  sortBy?: FilterQuery<any>,
+  limit: number = 6
+) {
   try {
     connectToDB();
 
-    const products = await Product.find().sort({ createdAt: -1 });
+    const products = await Product.find().sort(sortBy).limit(limit);
 
     return products;
   } catch (error) {
+    console.log(error);
+  }
+}
+export async function getProductByIdAndIncrementViews(productId: string) {
+  try {
+    await connectToDB();
+
+    // Find the product by its ID and increment the views count
+    const updatedProduct = await Product.findOneAndUpdate(
+      { _id: new ObjectId(productId) },
+      { $inc: { views: 1 } },
+      { returnDocument: 'after' } // Ensure the updated document is returned
+    );
+
+    if (!updatedProduct.value) {
+      return null;
+    }
+    return updatedProduct.value.views;
+  } catch (error) {
+    // Log any errors that occur
     console.log(error);
   }
 }
@@ -95,6 +120,25 @@ export async function getSimilarProducts(productId: string) {
       .limit(6);
 
     return similarProducts;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function getTrendingProducts(productId: number) {
+  try {
+    connectToDB();
+
+    // const trendingProducts = await Product.find({})
+    //   .sort({ views: -1 })
+    //   .limit(9);
+
+    const updatedPost = await Product.findOneAndUpdate(
+      { _id: productId },
+      { $inc: { views: 1 } },
+      { returnDocument: 'after' }
+    );
+
+    return updatedPost;
   } catch (error) {
     console.log(error);
   }

@@ -3,7 +3,11 @@ import Modal from '@/components/Modal';
 import PriceInfoCard from '@/components/PriceInfoCard';
 import ProductCard from '@/components/ProductCard';
 // import { getProductById, getSimilarProducts } from '@/lib/actions';
-import { getProductById, getSimilarProducts } from '@/lib/actions';
+import {
+  getProductById,
+  getProductByIdAndIncrementViews,
+  getSimilarProducts,
+} from '@/lib/actions';
 import { formatNumber, shortenString } from '@/lib/utils';
 
 import { Product } from '@/types';
@@ -21,6 +25,7 @@ const ProductDetails = async ({ params: { id } }: Props) => {
   if (!product) redirect('/');
 
   const similarProducts = await getSimilarProducts(id);
+  const views = await getProductByIdAndIncrementViews(id);
 
   return (
     <div className="product-container">
@@ -45,7 +50,7 @@ const ProductDetails = async ({ params: { id } }: Props) => {
               <Link
                 href={product.url}
                 target="_blank"
-                className="text-base text-black opacity-50"
+                className="text-base flex flex-none text-black opacity-50 "
               >
                 Visit Product
               </Link>
